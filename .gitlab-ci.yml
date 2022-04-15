@@ -1,0 +1,32 @@
+image: docker
+
+stages:
+  - deploy
+
+services:
+  - docker:dind
+
+start_deploy_prod:
+  stage: deploy
+  only:
+    - discord
+  script:
+    - docker-compose up -d --no-deps --build discord
+    - docker image prune -a -f
+  environment:
+    name: production
+    on_stop: stop_deploy_prod
+#  when: manual
+
+stop_deploy_prod:
+  stage: deploy
+  only:
+    - production
+  script:
+    - echo "Remove review app"
+    - docker-compose down
+  environment:
+    name: production
+    url: https://wfbot.cf
+    action: stop
+  when: manual
