@@ -57,11 +57,7 @@ if (!existsSync('./data')) {
 }
 
 if (!existsSync('./data/config.json')) {
-    copyFileSync('./assets/tmp/config.json', './data/config.json')
-}
-
-if (!existsSync('./data/clans')) {
-    mkdirSync('./data/clans')
+    copyFileSync('./config.json.example', './data/config.json')
 }
 
 const logger: Logger = new Logger({
